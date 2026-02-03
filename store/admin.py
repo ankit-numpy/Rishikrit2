@@ -27,6 +27,24 @@ class OrderItemInline(admin.TabularInline):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('id', 'full_name', 'phone', 'status', 'payment_method', 'payment_status', 'created_at')
+    list_editable = ('status', 'payment_status')
     list_filter = ('status', 'payment_method', 'payment_status', 'created_at')
     search_fields = ('full_name', 'phone')
     inlines = [OrderItemInline]
+    fields = (
+        'full_name',
+        'phone',
+        'email',
+        'address',
+        'city',
+        'state',
+        'postal_code',
+        'notes',
+        'status',
+        'payment_method',
+        'payment_status',
+        'payment_reference',
+        'coupon',
+        'discount_amount',
+        'delivery_fee',
+    )
