@@ -10,7 +10,7 @@
       - key: DJANGO_DEBUG
         value: "False"
       - key: DJANGO_ALLOWED_HOSTS
-        value: ".onrender.com"
+        value: ".onrender.com,rishikrit.onrender.com"
     disk:
       name: media
       mountPath: /opt/render/project/src/media
