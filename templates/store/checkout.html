@@ -1,0 +1,71 @@
+﻿{% extends 'store/base.html' %}
+{% block content %}
+<section class="checkout">
+    <div class="container checkout-grid">
+        <div>
+            <h2>Checkout</h2>
+            <form method="post" class="checkout-form">
+                {% csrf_token %}
+                <div class="form-grid">
+                    {{ form.full_name.label_tag }}
+                    {{ form.full_name }}
+
+                    {{ form.phone.label_tag }}
+                    {{ form.phone }}
+
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+
+                    {{ form.address.label_tag }}
+                    {{ form.address }}
+
+                    {{ form.city.label_tag }}
+                    {{ form.city }}
+
+                    {{ form.state.label_tag }}
+                    {{ form.state }}
+
+                    {{ form.postal_code.label_tag }}
+                    {{ form.postal_code }}
+
+                    {{ form.notes.label_tag }}
+                    {{ form.notes }}
+
+                    {{ form.payment_method.label_tag }}
+                    {{ form.payment_method }}
+
+                    <label for="id_coupon_code">Coupon Code</label>
+                    {{ form.coupon_code }}
+                </div>
+                <button class="primary-btn">Place order</button>
+            </form>
+            <p class="note">UPI and Stripe orders will be marked pending until payment is confirmed by admin.</p>
+        </div>
+        <aside class="cart-summary">
+            <h3>Your Order</h3>
+            {% for item in items %}
+                <div class="summary-row">
+                    <span>{{ item.product.name }} x {{ item.quantity }}</span>
+                    <span>₹{{ item.subtotal }}</span>
+                </div>
+            {% endfor %}
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>₹{{ subtotal }}</span>
+            </div>
+            <div class="summary-row">
+                <span>Discount</span>
+                <span>-₹{{ discount }}</span>
+            </div>
+            <div class="summary-row">
+                <span>Delivery</span>
+                <span>₹{{ delivery_fee }}</span>
+            </div>
+            <p class="total">Total: ₹{{ total }}</p>
+            {% if delivery_rate %}
+                <p class="small">{{ delivery_rate.name }}: Free over ₹{{ delivery_rate.free_over }}.</p>
+            {% endif %}
+        </aside>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,36 @@
+﻿{% extends 'store/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="product-detail">
+    <div class="container product-detail-inner">
+        <div class="product-detail-media">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <div class="placeholder large">{{ product.name|slice:':1' }}</div>
+            {% endif %}
+        </div>
+        <div class="product-detail-info">
+            <h1>{{ product.name }}</h1>
+            <p>{{ product.description|default:'Small batch honey with notes of wild blossoms and herbs.' }}</p>
+            <div class="product-meta">
+                <span class="price">₹{{ product.price }}</span>
+                {% if product.in_stock %}
+                    <span class="stock">In stock</span>
+                {% else %}
+                    <span class="stock out">Out of stock</span>
+                {% endif %}
+            </div>
+            <form method="post" action="{% url 'add_cart' product.id %}" class="quantity-form">
+                {% csrf_token %}
+                <label>
+                    Quantity
+                    <input type="number" name="quantity" value="1" min="1" max="20">
+                </label>
+                <button class="primary-btn" {% if not product.in_stock %}disabled{% endif %}>Add to cart</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

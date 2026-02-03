@@ -1,0 +1,40 @@
+﻿{% extends 'store/base.html' %}
+{% block content %}
+<section class="orders">
+    <div class="container">
+        <h2>Order #{{ order.id }}</h2>
+        <p>Status: {{ order.get_status_display }} | Payment: {{ order.get_payment_method_display }} ({{ order.get_payment_status_display }})</p>
+        <div class="order-detail-grid">
+            <div>
+                <h4>Delivery Address</h4>
+                <p>{{ order.full_name }}</p>
+                <p>{{ order.address }}</p>
+                <p>{{ order.city }}, {{ order.state }} {{ order.postal_code }}</p>
+                <p>{{ order.phone }}</p>
+            </div>
+            <div>
+                <h4>Items</h4>
+                {% for item in order.items.all %}
+                    <div class="summary-row">
+                        <span>{{ item.product.name }} x {{ item.quantity }}</span>
+                        <span>₹{{ item.subtotal }}</span>
+                    </div>
+                {% endfor %}
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span>₹{{ order.subtotal }}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Discount</span>
+                    <span>-₹{{ order.discount_amount }}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery</span>
+                    <span>₹{{ order.delivery_fee }}</span>
+                </div>
+                <p class="total">Total: ₹{{ order.total }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,12 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="honey" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f6c453"/>
+      <stop offset="100%" stop-color="#d78600"/>
+    </linearGradient>
+  </defs>
+  <circle cx="100" cy="100" r="90" fill="url(#honey)"/>
+  <path d="M100 45c-18 14-30 36-30 58 0 21 12 41 30 52 18-11 30-31 30-52 0-22-12-44-30-58z" fill="#fff2c4"/>
+  <path d="M100 70c-7 10-12 22-12 34 0 12 5 23 12 30 7-7 12-18 12-30 0-12-5-24-12-34z" fill="#d78600"/>
+  <text x="100" y="178" font-family="Cormorant Garamond, serif" font-size="24" text-anchor="middle" fill="#4a2b0f">rishikrit</text>
+</svg>

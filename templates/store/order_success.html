@@ -1,0 +1,18 @@
+﻿{% extends 'store/base.html' %}
+{% block content %}
+<section class="order-success">
+    <div class="container">
+        <h2>Thank you for your order!</h2>
+        <p>Your order number is <strong>#{{ order.id }}</strong>.</p>
+        <p>Payment method: {{ order.get_payment_method_display }} ({{ order.get_payment_status_display }}).</p>
+        {% if order.payment_method == 'upi' %}
+            <p>Please complete UPI payment and share the reference ID with our team.</p>
+        {% elif order.payment_method == 'stripe' %}
+            <p>Our team will send a secure Stripe payment link to your phone/email.</p>
+        {% else %}
+            <p>Cash on delivery selected. Pay when the order arrives.</p>
+        {% endif %}
+        <a class="secondary-btn" href="{% url 'home' %}">Continue shopping</a>
+    </div>
+</section>
+{% endblock %}

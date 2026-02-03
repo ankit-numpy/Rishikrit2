@@ -1,0 +1,61 @@
+﻿{% extends 'store/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero-inner">
+        <div>
+            <p class="eyebrow">Raw | Unfiltered | Ethical</p>
+            <h1>Your search for purity ends with Rishikrit.</h1>
+            <p>Hand-harvested honey varieties with real floral notes and natural goodness.</p>
+            <a class="primary-btn" href="#collection">Shop the collection</a>
+        </div>
+        <div class="hero-card">
+            <h3>Available Variants</h3>
+            <p>Tulsi, Jamun, Neem, Nilgiri, Himalayan Forest, Litchi, Ramtila, Acacia, Mustard, Ajwain.</p>
+            <div class="hero-badge">100% Pure</div>
+        </div>
+    </div>
+</section>
+
+<section id="collection" class="collection">
+    <div class="container">
+        <div class="section-title">
+            <h2>Rishikrit Honey Collection</h2>
+            <p>Choose your flavor profile and wellness boost.</p>
+        </div>
+        <div class="product-grid">
+            {% for product in products %}
+            <article class="product-card">
+                <a href="{% url 'product_detail' product.slug %}">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                        <div class="placeholder">{{ product.name|slice:':1' }}</div>
+                    {% endif %}
+                </a>
+                <div class="product-info">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description|default:'Wildcrafted honey with rich, floral aroma.' }}</p>
+                    <div class="product-meta">
+                        <span class="price">₹{{ product.price }}</span>
+                        {% if product.in_stock %}
+                            <span class="stock">In stock</span>
+                        {% else %}
+                            <span class="stock out">Out of stock</span>
+                        {% endif %}
+                    </div>
+                    <form method="post" action="{% url 'add_cart' product.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="quantity" value="1">
+                        <button class="secondary-btn" {% if not product.in_stock %}disabled{% endif %}>Add to cart</button>
+                    </form>
+                </div>
+            </article>
+            {% empty %}
+            <p>No products yet. Add items from the admin panel.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

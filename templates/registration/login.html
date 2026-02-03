@@ -1,0 +1,14 @@
+﻿{% extends 'store/base.html' %}
+{% block content %}
+<section class="auth">
+    <div class="container auth-card">
+        <h2>Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="primary-btn">Login</button>
+        </form>
+        <p>New here? <a href="{% url 'register' %}">Create an account</a>.</p>
+    </div>
+</section>
+{% endblock %}

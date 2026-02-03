@@ -1,0 +1,27 @@
+﻿{% extends 'store/base.html' %}
+{% block content %}
+<section class="orders">
+    <div class="container">
+        <h2>My Orders</h2>
+        {% if orders %}
+            <div class="order-list">
+                {% for order in orders %}
+                    <div class="order-card">
+                        <div>
+                            <h4>Order #{{ order.id }}</h4>
+                            <p>{{ order.created_at|date:"M d, Y" }}</p>
+                        </div>
+                        <div>
+                            <p>Status: {{ order.get_status_display }}</p>
+                            <p>Total: ₹{{ order.total }}</p>
+                        </div>
+                        <a class="secondary-btn" href="{% url 'order_detail' order.id %}">View details</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>You have not placed any orders yet.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
