@@ -1,6 +1,6 @@
 ﻿from decimal import Decimal
 from django.conf import settings
-from django.db import models
+from django.db import models, transaction
 from django.utils import timezone
 from django.utils.text import slugify
 
@@ -113,6 +113,23 @@ class Order(models.Model):
 
     def __str__(self):
         return f'Order #{self.id} - {self.full_name}'
+
+    def save(self, *args, **kwargs):
+        was_cancelled = False
+        if self.pk:
+            previous = Order.objects.filter(pk=self.pk).only('status').first()
+            if previous:
+                was_cancelled = previous.status == 'cancelled'
+
+        is_cancelling = self.status == 'cancelled' and not was_cancelled
+        super().save(*args, **kwargs)
+
+        if is_cancelling:
+            with transaction.atomic():
+                for item in self.items.select_related('product').all():
+                    product = item.product
+                    product.inventory += item.quantity
+                    product.save(update_fields=['inventory'])
 
     @property
     def subtotal(self):
